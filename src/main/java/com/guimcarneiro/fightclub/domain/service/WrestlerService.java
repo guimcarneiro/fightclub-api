@@ -11,4 +11,6 @@ public class WrestlerService {
 	@Autowired
 	private WrestlerRepository wrestlerRepository;
 	
+	
+	
 }

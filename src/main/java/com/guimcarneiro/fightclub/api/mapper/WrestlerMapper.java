@@ -1,13 +1,15 @@
 package com.guimcarneiro.fightclub.api.mapper;
 
 import com.guimcarneiro.fightclub.api.model.CreateWrestlerModel;
+import com.guimcarneiro.fightclub.api.model.CreateWrestlerSkillModel;
+import com.guimcarneiro.fightclub.api.model.DefaultShowWrestlerModel;
 import com.guimcarneiro.fightclub.domain.model.Wrestler;
 
 public class WrestlerMapper {
 
 	/**
 	 * It maps CreateWrestlerModel to Wrestler. It preserves the id from Wrestler.
-	 * Category and Skill must be set "outside".
+	 * Category, Skill and createdAt must be set "outside".
 	 * 
 	 * @param cwm
 	 * @param wrestler
@@ -34,6 +36,23 @@ public class WrestlerMapper {
 		cwm.setHeight(wrestler.getHeight());
 		cwm.setNacionality(wrestler.getNacionality());
 		cwm.setName(wrestler.getName());
+	}
+	
+	public static void mapWrestlerToDefaultShowWrestlerModel(Wrestler wrestler, DefaultShowWrestlerModel dswm) {
+		dswm.setAvatar(wrestler.getAvatar());
+		dswm.setCategory(wrestler.getCategory().getName());
+		dswm.setCreatedAt(wrestler.getCreatedAt());
+		dswm.setDescription(wrestler.getDescription());
+		dswm.setHeight(wrestler.getHeight());
+		dswm.setNacionality(wrestler.getNacionality());
+		dswm.setName(wrestler.getName());
+		dswm.setNumLosses(wrestler.getNumLosses());
+		dswm.setNumWins(wrestler.getNumWins());
+		
+		CreateWrestlerSkillModel cwsm = new CreateWrestlerSkillModel();
+		SkillMapper.mapSkillToCreateWrestlerSkillModel(wrestler.getSkill(), cwsm);
+		
+		dswm.setSkill(cwsm);
 	}
 	
 }
