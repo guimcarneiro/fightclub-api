@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "wrestler")
 public class Wrestler {
@@ -29,8 +31,9 @@ public class Wrestler {
 	@Column(name = "nacionality")
 	private String nacionality;
 	
+	@Type(type="org.hibernate.type.BinaryType")
 	@Column(name = "avatar")
-	private String avatar;
+	private byte[] avatar;
 	
 	@Column(name = "height")
 	private Integer height;
@@ -76,11 +79,11 @@ public class Wrestler {
 		this.nacionality = nacionality;
 	}
 
-	public String getAvatar() {
+	public byte[] getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(String avatar) {
+	public void setAvatar(byte[] avatar) {
 		this.avatar = avatar;
 	}
 

@@ -9,13 +9,12 @@ public class WrestlerMapper {
 
 	/**
 	 * It maps CreateWrestlerModel to Wrestler. It preserves the id from Wrestler.
-	 * Category, Skill and createdAt must be set "outside".
+	 * Category, Skill createdAt and avatar must be set "outside".
 	 * 
 	 * @param cwm
 	 * @param wrestler
 	 */
 	public static void mapCreateWrestlerModelToWrestler(CreateWrestlerModel cwm, Wrestler wrestler) {
-		wrestler.setAvatar(cwm.getAvatar());
 		wrestler.setDescription(cwm.getDescription());
 		wrestler.setHeight(cwm.getHeight());
 		wrestler.setNacionality(cwm.getNacionality());
@@ -23,14 +22,14 @@ public class WrestlerMapper {
 	}
 	
 	/**
-	 * It maps Wrestler to CreateWrestlerModel.
+	 * It maps Wrestler to CreateWrestlerModel. It must set avatar.
 	 * 
 	 * @param wrestler
 	 * @param cwm
 	 */
 	public static void mapWrestlerToCreateWrestlerModel(Wrestler wrestler, CreateWrestlerModel cwm) {
 		cwm.setId(wrestler.getId());
-		cwm.setAvatar(wrestler.getAvatar());
+		
 		cwm.setCategory(wrestler.getCategory().getName());
 		cwm.setDescription(wrestler.getDescription());
 		cwm.setHeight(wrestler.getHeight());
@@ -38,8 +37,13 @@ public class WrestlerMapper {
 		cwm.setName(wrestler.getName());
 	}
 	
+	/**
+	 * It maps Wrestler to DefaultShowWrestlerModel. It doesnt set avatar.
+	 * 
+	 * @param wrestler
+	 * @param dswm
+	 */
 	public static void mapWrestlerToDefaultShowWrestlerModel(Wrestler wrestler, DefaultShowWrestlerModel dswm) {
-		dswm.setAvatar(wrestler.getAvatar());
 		dswm.setCategory(wrestler.getCategory().getName());
 		dswm.setCreatedAt(wrestler.getCreatedAt());
 		dswm.setDescription(wrestler.getDescription());

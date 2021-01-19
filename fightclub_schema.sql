@@ -23,7 +23,8 @@ CREATE TABLE skill (
     force INTEGER,
     nervousness INTEGER,
     technique INTEGER,
-    endurance INTEGER
+    endurance INTEGER,
+    updated_at TIMESTAMP
 );
 
 CREATE TABLE fight (

@@ -1,6 +1,7 @@
 package com.guimcarneiro.fightclub.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,6 @@ public class CategoryApiService {
 		savedCategoryModel.setName(categoryDb.getName());
 		savedCategoryModel.setDescription(categoryDb.getDescription());
 		
-		return ResponseEntity.ok(savedCategoryModel);
+		return new ResponseEntity<>(savedCategoryModel, HttpStatus.CREATED);
 	}
 }

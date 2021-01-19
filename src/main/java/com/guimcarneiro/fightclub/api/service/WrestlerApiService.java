@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,10 @@ import com.guimcarneiro.fightclub.domain.model.Category;
 import com.guimcarneiro.fightclub.domain.model.Skill;
 import com.guimcarneiro.fightclub.domain.model.Wrestler;
 import com.guimcarneiro.fightclub.domain.repository.CategoryRepository;
+import com.guimcarneiro.fightclub.domain.repository.SkillRepository;
 import com.guimcarneiro.fightclub.domain.repository.WrestlerRepository;
 import com.guimcarneiro.fightclub.domain.service.WrestlerService;
+import com.guimcarneiro.fightclub.utils.CommonUtils;
 
 @Service
 public class WrestlerApiService {
@@ -26,13 +29,13 @@ public class WrestlerApiService {
 	//FIXME: implements a ApiService interface, maybe?
 	
 	@Autowired
-	private WrestlerService wrestlerService;
-	
-	@Autowired
 	private WrestlerRepository wrestlerRepository;
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private SkillRepository skillRepository;
 	
 	public ResponseEntity<List<DefaultShowWrestlerModel>> listAll() {
 		
@@ -42,39 +45,57 @@ public class WrestlerApiService {
 		for (Wrestler wrestler : wrestlers) {
 			DefaultShowWrestlerModel dswm = new DefaultShowWrestlerModel();
 			WrestlerMapper.mapWrestlerToDefaultShowWrestlerModel(wrestler, dswm);
+			
+			//check if wrestler has avatar
+			if(wrestler.getAvatar() != null) {				
+				String b64Avatar = CommonUtils.convertByteArrayToBase64(wrestler.getAvatar());
+				dswm.setAvatar(b64Avatar);
+			}
+			
 			defaultShowWrestlerModels.add(dswm);
 		}
 		
-		return ResponseEntity.ok(defaultShowWrestlerModels);
+		return new ResponseEntity<>(defaultShowWrestlerModels, HttpStatus.OK);
 	}
 	
 	public ResponseEntity<DefaultShowWrestlerModel> save(CreateWrestlerModel cwm) {
 			Wrestler newWrestler = new Wrestler();
 			WrestlerMapper.mapCreateWrestlerModelToWrestler(cwm, newWrestler);
 			
-			Skill skill = new Skill();
-			SkillMapper.mapCreateWrestlerSkillModelToSkill(cwm.getSkill(), skill);
-			newWrestler.setSkill(skill);
+			//maps and save skill
+			Skill newSkill = new Skill();
+			SkillMapper.mapCreateWrestlerSkillModelToSkill(cwm.getSkill(), newSkill);
 			
-			//TODO: busca pela categoria. Se não existir lançar erro.
+			Skill savedSkill = this.skillRepository.save(newSkill);
+			
+			newWrestler.setSkill(savedSkill);
 			
 			Optional<Category> optCategoryDb = this.categoryRepository.findById(cwm.getCategory());
 			if(optCategoryDb.isEmpty()) {
-				//FIXME: lançar erro de maneira correta, com DTO criado especificamente para isso.
+				//FIXME: throw custom exception instead
 				throw new RuntimeException("There is no such category");
 			}
 			
 			Category categoryDb = optCategoryDb.get();
 			
 			newWrestler.setCategory(categoryDb);
+			
+			//check if dto has avatar
+			//FIXME: check if it comes in base64 format
+			if(cwm.getAvatar() != null) {
+				byte[] avatar = CommonUtils.convertBase64ToByteArray(cwm.getAvatar());
+				newWrestler.setAvatar(avatar);
+			}
+			
 			newWrestler.setCreatedAt(OffsetDateTime.now());
 			
 			Wrestler savedWrestler = this.wrestlerRepository.save(newWrestler);
 			
 			DefaultShowWrestlerModel savedWrestlerModel = new DefaultShowWrestlerModel();
 			WrestlerMapper.mapWrestlerToDefaultShowWrestlerModel(savedWrestler, savedWrestlerModel);
+			savedWrestlerModel.setAvatar(cwm.getAvatar());
 			
-			return ResponseEntity.ok(savedWrestlerModel);
+			return new ResponseEntity<>(savedWrestlerModel, HttpStatus.CREATED);
 	}
 	
 }

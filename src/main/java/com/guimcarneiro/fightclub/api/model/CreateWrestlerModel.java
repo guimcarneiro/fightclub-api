@@ -10,6 +10,7 @@ public class CreateWrestlerModel {
 	
 	private String nacionality;
 	
+	//FIXME: possible change to receive base64
 	private String avatar;
 	
 	private Integer height;
