@@ -3,6 +3,7 @@ package com.guimcarneiro.fightclub.api.mapper;
 import com.guimcarneiro.fightclub.api.model.CreateWrestlerModel;
 import com.guimcarneiro.fightclub.api.model.CreateWrestlerSkillModel;
 import com.guimcarneiro.fightclub.api.model.DefaultShowWrestlerModel;
+import com.guimcarneiro.fightclub.api.model.UpdateWrestlerModel;
 import com.guimcarneiro.fightclub.domain.model.Wrestler;
 
 public class WrestlerMapper {
@@ -57,6 +58,34 @@ public class WrestlerMapper {
 		SkillMapper.mapSkillToCreateWrestlerSkillModel(wrestler.getSkill(), cwsm);
 		
 		dswm.setSkill(cwsm);
+	}
+	
+	/**
+	 * It maps UpdateWrestlerModel to Wrestler. It doesn't set avatar, category, numWins and numLosses.
+	 * 
+	 * @param uwm
+	 * @param wrestler
+	 */
+	public static void mapUpdateWrestlerModelToWrestler(UpdateWrestlerModel uwm, Wrestler wrestler) {
+		wrestler.setDescription(uwm.getDescription());
+		wrestler.setHeight(uwm.getHeight());
+		wrestler.setNacionality(uwm.getNacionality());
+		wrestler.setName(uwm.getName());
+	}
+	
+	/**
+	 * It maps Wrestler to UpdateWrestlerModel. It doesn't set avatar.
+	 * 
+	 * @param wrestler
+	 * @param uwm
+	 */
+	public static void mapWrestlerToUpdateWrestlerModel(Wrestler wrestler, UpdateWrestlerModel uwm) {
+		uwm.setDescription(wrestler.getDescription());
+		uwm.setHeight(wrestler.getHeight());
+		uwm.setNacionality(wrestler.getNacionality());
+		uwm.setName(wrestler.getName());
+		uwm.setId(wrestler.getId());
+		uwm.setCategory(wrestler.getCategory().getName());
 	}
 	
 }
