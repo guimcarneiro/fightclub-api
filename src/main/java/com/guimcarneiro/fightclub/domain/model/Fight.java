@@ -1,5 +1,7 @@
 package com.guimcarneiro.fightclub.domain.model;
 
+import java.time.OffsetDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,6 +32,9 @@ public class Fight {
 	@JoinColumn(name = "category_id", referencedColumnName = "name")
 	private Category category;
 
+	@Column(name = "happened_at")
+	private OffsetDateTime happenedAt;
+	
 	public Wrestler getWinner() {
 		return winner;
 	}
@@ -60,6 +65,14 @@ public class Fight {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public OffsetDateTime getHappenedAt() {
+		return happenedAt;
+	}
+
+	public void setHappenedAt(OffsetDateTime happenedAt) {
+		this.happenedAt = happenedAt;
 	}
 
 	@Override
