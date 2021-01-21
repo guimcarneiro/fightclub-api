@@ -4,19 +4,17 @@ import java.time.OffsetDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DefaultShowFightModel {
+public class ShowFightOnListModel {
 
 	private Long id;
 	
-	@JsonProperty("winner_id")
-	private Long winner;
+	private ShowWrestlerOnFightListModel winner;
 	
-	@JsonProperty("loser_id")
-	private Long loser;
+	private ShowWrestlerOnFightListModel loser;
 	
 	@JsonProperty("happened_at")
 	private OffsetDateTime happenedAt;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -25,19 +23,19 @@ public class DefaultShowFightModel {
 		this.id = id;
 	}
 
-	public Long getWinner() {
+	public ShowWrestlerOnFightListModel getWinner() {
 		return winner;
 	}
 
-	public void setWinner(Long winner) {
+	public void setWinner(ShowWrestlerOnFightListModel winner) {
 		this.winner = winner;
 	}
 
-	public Long getLoser() {
+	public ShowWrestlerOnFightListModel getLoser() {
 		return loser;
 	}
 
-	public void setLoser(Long loser) {
+	public void setLoser(ShowWrestlerOnFightListModel loser) {
 		this.loser = loser;
 	}
 

@@ -3,6 +3,7 @@ package com.guimcarneiro.fightclub.api.mapper;
 import com.guimcarneiro.fightclub.api.model.CreateWrestlerModel;
 import com.guimcarneiro.fightclub.api.model.CreateWrestlerSkillModel;
 import com.guimcarneiro.fightclub.api.model.DefaultShowWrestlerModel;
+import com.guimcarneiro.fightclub.api.model.ShowWrestlerOnFightListModel;
 import com.guimcarneiro.fightclub.api.model.UpdateWrestlerModel;
 import com.guimcarneiro.fightclub.domain.model.Wrestler;
 
@@ -86,6 +87,17 @@ public class WrestlerMapper {
 		uwm.setName(wrestler.getName());
 		uwm.setId(wrestler.getId());
 		uwm.setCategory(wrestler.getCategory().getName());
+	}
+	
+	/**
+	 * It maps Wrestler to ShowWrestlerOnFightListModel.
+	 * 
+	 * @param wrestler
+	 * @param swofl
+	 */
+	public static void mapWrestlerToShowWrestlerOnFightListModel(Wrestler wrestler, ShowWrestlerOnFightListModel swofl) {
+		swofl.setId(wrestler.getId());
+		swofl.setName(wrestler.getName());
 	}
 	
 }
