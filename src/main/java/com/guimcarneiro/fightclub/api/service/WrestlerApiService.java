@@ -17,6 +17,7 @@ import com.guimcarneiro.fightclub.api.mapper.WrestlerMapper;
 import com.guimcarneiro.fightclub.api.model.CreateWrestlerModel;
 import com.guimcarneiro.fightclub.api.model.DefaultShowWrestlerModel;
 import com.guimcarneiro.fightclub.api.model.UpdateWrestlerModel;
+import com.guimcarneiro.fightclub.domain.exception.EntityNotFoundException;
 import com.guimcarneiro.fightclub.domain.model.Category;
 import com.guimcarneiro.fightclub.domain.model.Skill;
 import com.guimcarneiro.fightclub.domain.model.Wrestler;
@@ -76,7 +77,7 @@ public class WrestlerApiService {
 			Optional<Category> optCategoryDb = this.categoryRepository.findById(cwm.getCategory());
 			if(optCategoryDb.isEmpty()) {
 				//FIXME: throw custom exception instead
-				throw new RuntimeException("There is no such category");
+				throw new EntityNotFoundException("There is no such category");
 			}
 			
 			Category categoryDb = optCategoryDb.get();
@@ -127,13 +128,13 @@ public class WrestlerApiService {
 		Optional<Wrestler> optWrestlerDb = this.wrestlerRepository.findById(id);
 		
 		if(optWrestlerDb.isEmpty()) {
-			throw new RuntimeException("Wrestler with id " + id + " not found.");
+			throw new EntityNotFoundException("Wrestler with id " + id + " not found.");
 		}
 		
 		Optional<Category> optCategoryDb = this.categoryRepository.findById(uwm.getCategory());
 		
 		if(optCategoryDb.isEmpty()) {
-			throw new RuntimeException("Category " + uwm.getCategory() + " doesn't exist.");
+			throw new EntityNotFoundException("Category " + uwm.getCategory() + " doesn't exist.");
 		}
 		
 		Category categoryDb = optCategoryDb.get();
@@ -160,7 +161,7 @@ public class WrestlerApiService {
 		Optional<Wrestler> optWrestlerDb = this.wrestlerRepository.findById(id);
 		
 		if(optWrestlerDb.isEmpty()) {
-			throw new RuntimeException("Wrestler with id " + id + " not found.");
+			throw new EntityNotFoundException("Wrestler with id " + id + " not found.");
 		}
 		
 		this.wrestlerRepository.deleteById(id);

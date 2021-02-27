@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.guimcarneiro.fightclub.domain.exception.BusinessException;
 import com.guimcarneiro.fightclub.domain.model.Fight;
 import com.guimcarneiro.fightclub.domain.model.Skill;
 import com.guimcarneiro.fightclub.domain.model.Wrestler;
@@ -25,7 +26,7 @@ public class FightService {
 	@Transactional
 	public Fight fight(Wrestler wrestler1, Wrestler wrestler2) {
 		if(!wrestler1.getCategory().equals(wrestler2.getCategory())) {
-			throw new RuntimeException("Wrestlers must be from the same category");
+			throw new BusinessException("Wrestlers must be from the same category");
 		}
 		
 		FightResult fightResult = getFightResult(wrestler1, wrestler2);

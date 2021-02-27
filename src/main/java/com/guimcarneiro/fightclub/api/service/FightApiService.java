@@ -13,6 +13,7 @@ import com.guimcarneiro.fightclub.api.mapper.FightMapper;
 import com.guimcarneiro.fightclub.api.model.CreateFightModel;
 import com.guimcarneiro.fightclub.api.model.ShowFightOnCreateModel;
 import com.guimcarneiro.fightclub.api.model.ShowFightOnListModel;
+import com.guimcarneiro.fightclub.domain.exception.EntityNotFoundException;
 import com.guimcarneiro.fightclub.domain.model.Fight;
 import com.guimcarneiro.fightclub.domain.model.Wrestler;
 import com.guimcarneiro.fightclub.domain.repository.FightRepository;
@@ -36,7 +37,7 @@ public class FightApiService {
 		Optional<Wrestler> optWrestler2Db = this.wrestlerRepository.findById(cfm.getWrestler2());
 		
 		if(optWrestler1Db.isEmpty() || optWrestler2Db.isEmpty()) {
-			throw new RuntimeException("One of the wrestlers doesn't exist on database");
+			throw new EntityNotFoundException("One of the wrestlers doesn't exist on database");
 		}
 		
 		Wrestler wrestler1Db = optWrestler1Db.get();

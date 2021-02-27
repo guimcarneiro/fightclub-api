@@ -43,10 +43,10 @@ public class Wrestler {
 	private Category category;
 	
 	@Column(name = "num_wins")
-	private Integer numWins;
+	private Integer numWins = 0;
 	
 	@Column(name = "num_losses")
-	private Integer numLosses;
+	private Integer numLosses = 0;
 	
 	@Column(name = "created_at")
 	private OffsetDateTime createdAt;
